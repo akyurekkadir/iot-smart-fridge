@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+images/temp/
+images/uploads/
+*.log
+
+# Model training outputs (keep best.pt, ignore training artifacts)
+model/YOLO/runs/
+model/YOLO/*.csv
+model/YOLO/*.txt
+
+# Environment variables
+.env
+.env.local
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
