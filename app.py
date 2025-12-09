@@ -42,7 +42,7 @@ if 'yolo_results' not in st.session_state:
 # 1) Load YOLO model
 @st.cache_resource
 def load_model():
-    model_path = "models/best.pt"
+    model_path = "model/best.pt"
     if not os.path.exists(model_path):
         st.error(f"Model file not found: {model_path}")
         return None
