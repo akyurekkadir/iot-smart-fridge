@@ -810,8 +810,10 @@ def place_item_on_shelf(item_index, shelf_location, shelf_coords, fruit_image_pa
 
 # 11) Render fridge with products using shelf coordinate system
 def render_fridge_with_products():
-    fridge_path = "images/fridge.jpg"
-    if not os.path.exists(fridge_path):
+    base_dir = Path(__file__).resolve().parent
+    fridge_path = base_dir / "images" / "fridge.jpg"
+    temp_dir = base_dir / "images" / "temp"
+    if not fridge_path.exists():
         st.error("Fridge image not found: images/fridge.jpg")
         return None
     
@@ -963,14 +965,14 @@ def render_fridge_with_products():
     if len(fruit_image_paths) > 0:
         try:
             # Ensure temp directory exists
-            os.makedirs("images/temp", exist_ok=True)
+            os.makedirs(temp_dir, exist_ok=True)
             
-            # Convert PIL image to file for OpenCV
-            temp_bg = "images/temp/temp_background.jpg"
-            fridge_img.save(temp_bg)
+            # Convert PIL image to file for OpenCV (use PNG to avoid JPEG issues)
+            temp_bg = temp_dir / "temp_background.png"
+            fridge_img.convert("RGB").save(temp_bg, format="PNG")
             
             # Composite using OpenCV with slot-based sizing
-            combined_bgr = composite_images_opencv(temp_bg, fruit_image_paths, fruit_positions)
+            combined_bgr = composite_images_opencv(str(temp_bg), fruit_image_paths, fruit_positions)
             
             # Convert back to PIL Image
             combined_rgb = cv2.cvtColor(combined_bgr, cv2.COLOR_BGR2RGB)
