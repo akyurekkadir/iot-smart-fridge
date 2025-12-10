@@ -999,10 +999,23 @@ def render_fridge_with_products():
     
     return fridge_img
 
-# 8) Check closed product expiry
-def check_product_expiry(products, current_day):
+# 8) Check closed product expiry (now influenced by environment)
+def check_product_expiry(products, current_day, humidity, temperature, ethylene):
+    """
+    Update closed product status based on expiry date and environment.
+    
+    Environment effect:
+    - High temperature (>8°C), high humidity (>80%), and high ethylene (>1.0)
+      accelerate spoilage by reducing effective days_left.
+    """
     updated_products = []
     current_date = datetime.now().date() + timedelta(days=current_day)
+    
+    # Simple environment penalty (each factor decreases remaining days)
+    temp_penalty = max(0, temperature - 8) * 0.5       # every +2°C ~ -1 day
+    hum_penalty = max(0, humidity - 80) / 10.0         # every +10% ~ -1 day
+    eth_penalty = max(0, ethylene - 1.0) * 2.0         # high ethylene accelerates
+    env_penalty = temp_penalty + hum_penalty + eth_penalty
     
     for product in products:
         expiry_date = product.get("expiry_date")
@@ -1010,9 +1023,13 @@ def check_product_expiry(products, current_day):
             if isinstance(expiry_date, str):
                 expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d").date()
             days_left = (expiry_date - current_date).days
-            if days_left < 0:
+            
+            # Apply environment penalty (cannot go above the original days_left to negative infinity)
+            effective_days_left = days_left - env_penalty
+            
+            if effective_days_left < 0:
                 product["status"] = "expired"
-            elif days_left <= 2:
+            elif effective_days_left <= 2:
                 product["status"] = "expiring_soon"
             else:
                 product["status"] = "ok"
@@ -1154,7 +1171,10 @@ def main():
             )
             st.session_state.closed_products = check_product_expiry(
                 st.session_state.closed_products,
-                st.session_state.simulation_day
+                st.session_state.simulation_day,
+                st.session_state.humidity,
+                st.session_state.temperature,
+                st.session_state.ethylene
             )
             # Send to cloud - day advanced event
             payload = create_payload("day_advanced")
