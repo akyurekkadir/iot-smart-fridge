@@ -2,9 +2,18 @@
 
 A comprehensive Streamlit-based smart refrigerator simulator with YOLO image analysis, sensor simulation, real-time decay modeling, and cloud integration.
 
+## 🚀 Live Demo
+
+The interactive Smart Fridge simulation is live here:
+
+👉 **https://iot-smart-fridge-ld4fjyqgt6adrtfab3oaa3.streamlit.app/**
+
+No local setup needed — model, UI, and environment simulation run in the browser.
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [Live Demo](#-live-demo)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
