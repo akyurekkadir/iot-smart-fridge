@@ -10,6 +10,18 @@ The interactive Smart Fridge simulation is live here:
 
 No local setup needed — model, UI, and environment simulation run in the browser.
 
+## 🎥 Demo Video – How the System Works
+
+Watch a walkthrough demonstrating how the IoT Smart Fridge system operates, including image analysis, sensor simulation, real-time decay modeling, and cloud integration:
+
+👉 **https://youtu.be/3ElFaKVzq6I**
+
+🧠 **System Workflow (Covered in the Video)**  
+- YOLO detects and classifies food items inside the fridge  
+- Temperature and humidity sensors are simulated in real time  
+- Food freshness and decay are dynamically modeled  
+- All data and predictions are visualized via a Streamlit cloud interface
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
